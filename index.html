@@ -3,52 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monthly Data Collector</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <title>CPM Calculation</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Enter Monthly Data</h1>
-    <label for="planTargetLastMonth">Plan Target Last Month:</label>
-    <input type="number" id="planTargetLastMonth" placeholder="Enter data">
-    <br><br>
-    <label for="productionLastMonth">Production Last Month:</label>
-    <input type="number" id="productionLastMonth" placeholder="Enter data">
-    <br><br>
-    <button onclick="saveData()">Save Data</button>
+    <div class="container">
+        <h1>Garment Cost Per Minute (CPM) Calculator</h1>
+        <form id="cpmForm">
+            <label for="totalCostBDT">Total Production Cost (BDT):</label>
+            <input type="number" id="totalCostBDT" required>
 
-    <script>
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAm78M6E39GcehlUEVzIWYdvpZv7G2XKfo",
-            authDomain: "monthly-data-collector.firebaseapp.com",
-            projectId: "monthly-data-collector",
-            storageBucket: "monthly-data-collector.appspot.com",
-            messagingSenderId: "593136389926",
-            appId: "1:593136389926:web:d6df0b5ad93baf3023bbe7",
-            measurementId: "G-M5FTCE13JS"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+            <label for="exchangeRate">Exchange Rate (BDT to USD):</label>
+            <input type="number" step="0.01" id="exchangeRate" required>
 
-        // Save data to Firebase
-        function saveData() {
-            let planTargetLastMonth = document.getElementById('planTargetLastMonth').value;
-            let productionLastMonth = document.getElementById('productionLastMonth').value;
+            <label for="totalLines">Total Number of Lines:</label>
+            <input type="number" id="totalLines" required>
 
-            const month = new Date().getMonth() + 1; // Correct month calculation
-            const year = new Date().getFullYear();
-            const path = 'monthlyData/' + month + '-' + year;
+            <label for="manpowerPerLine">Total Manpower per Line:</label>
+            <input type="number" id="manpowerPerLine" required>
 
-            firebase.database().ref(path).set({
-                planTargetLastMonth: planTargetLastMonth,
-                productionLastMonth: productionLastMonth
-            }).then(() => {
-                alert('Data saved successfully!');
-            }).catch((error) => {
-                console.error('Error saving data:', error);
-            });
-        }
-    </script>
+            <button type="button" onclick="calculateCPM()">Calculate CPM</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
