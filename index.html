@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Data Collector</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Enter Monthly Data</h1>
+    <label for="planTargetLastMonth">Plan Target Last Month:</label>
+    <input type="number" id="planTargetLastMonth" placeholder="Enter data">
+    <br><br>
+    <label for="productionLastMonth">Production Last Month:</label>
+    <input type="number" id="productionLastMonth" placeholder="Enter data">
+    <br><br>
+    <button onclick="saveData()">Save Data</button>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAm78M6E39GcehlUEVzIWYdvpZv7G2XKfo",
+            authDomain: "monthly-data-collector.firebaseapp.com",
+            projectId: "monthly-data-collector",
+            storageBucket: "monthly-data-collector.appspot.com",
+            messagingSenderId: "593136389926",
+            appId: "1:593136389926:web:d6df0b5ad93baf3023bbe7",
+            measurementId: "G-M5FTCE13JS"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Save data to Firebase
+        function saveData() {
+            let planTargetLastMonth = document.getElementById('planTargetLastMonth').value;
+            let productionLastMonth = document.getElementById('productionLastMonth').value;
+
+            const month = new Date().getMonth() + 1; // Correct month calculation
+            const year = new Date().getFullYear();
+            const path = 'monthlyData/' + month + '-' + year;
+
+            firebase.database().ref(path).set({
+                planTargetLastMonth: planTargetLastMonth,
+                productionLastMonth: productionLastMonth
+            }).then(() => {
+                alert('Data saved successfully!');
+            }).catch((error) => {
+                console.error('Error saving data:', error);
+            });
+        }
+    </script>
+</body>
+</html>
